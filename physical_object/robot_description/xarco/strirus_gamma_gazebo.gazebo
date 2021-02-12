@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<robot>
+    <!--====================== Plugin TOF camera 2 ======================-->
+    <gazebo reference="tof_camera_2">
+        <sensor name="tof_camera_2_camera" type="depth">
+            <update_rate>45</update_rate>
+            <camera>
+                <horizontal_fov>1.0821</horizontal_fov>
+                <image>
+                    <width>224</width>
+                    <height>171</height>
+                    <format>L8</format>
+                </image>
+                <clip>
+                    <near>0.01</near>
+                    <far>4</far>
+                </clip>
+            </camera>
+            <plugin name="camera_2_plugin" filename="libgazebo_ros_openni_kinect.so">
+                <baseline>0.2</baseline>
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>pico_flexx2</cameraName>
+                <imageTopicName>/pico_flexx2/color/image_raw</imageTopicName>
+                <cameraInfoTopicName>/pico_flexx2/camera_info</cameraInfoTopicName>
+                <depthImageTopicName>/pico_flexx2/image_depth</depthImageTopicName>
+                <depthImageCameraInfoTopicName>/pico_flexx2/camera_info</depthImageCameraInfoTopicName>
+                <pointCloudTopicName>/pico_flexx/points2</pointCloudTopicName>
+                <frameName>tof_camera_2</frameName>
+                <pointCloudCutoff>0.5</pointCloudCutoff>
+                <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+                <distortionK1>0.478024</distortionK1>
+                <distortionK2>-5.00469</distortionK2>
+                <distortionK3>8.73712</distortionK3>
+                <distortionT1>2.15213e-15</distortionT1>
+                <distortionT2>-2.30369e-16</distortionT2>
+                <CxPrime>0</CxPrime>
+                <Cx>112.654</Cx>
+                <Cy>87.9818</Cy>
+                <focalLength>186.400175</focalLength>
+                <hackBaseline>0</hackBaseline>
+            </plugin>
+        </sensor>
+    </gazebo>
+    <!--====================== Plugin TOF camera 1 ======================-->
+    <!-- <gazebo reference="tof_camera_1">
+      <sensor name="tof_camera_1_camera" type="depth">
+        <update_rate>45</update_rate>
+        <camera>
+          <horizontal_fov>1.0821</horizontal_fov>
+          <image>
+            <width>224</width>
+            <height>171</height>
+            <format>L8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>4</far>
+          </clip>
+        </camera>
+        <plugin name="camera_1_plugin" filename="libgazebo_ros_openni_kinect.so">
+              <baseline>0.2</baseline>
+              <alwaysOn>true</alwaysOn>
+              <updateRate>0.0</updateRate>
+              <cameraName>pico_flexx1</cameraName>
+              <imageTopicName>/pico_flexx1/color/image_raw</imageTopicName>
+              <cameraInfoTopicName>/pico_flexx1/camera_info</cameraInfoTopicName>
+              <depthImageTopicName>/pico_flexx1/image_depth</depthImageTopicName>
+              <depthImageCameraInfoTopicName>/pico_flexx1/camera_info</depthImageCameraInfoTopicName>
+              <pointCloudTopicName>/pico_flexx1/points</pointCloudTopicName>
+              <frameName>tof_camera_1</frameName>
+              <pointCloudCutoff>0.5</pointCloudCutoff>
+              <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+              <distortionK1>0.478024</distortionK1>
+              <distortionK2>-5.00469</distortionK2>
+              <distortionK3>8.73712</distortionK3>
+              <distortionT1>2.15213e-15</distortionT1>
+              <distortionT2>-2.30369e-16</distortionT2>
+              <CxPrime>0</CxPrime>
+              <Cx>112.654</Cx>
+              <Cy>87.9818</Cy>
+              <focalLength>211.101</focalLength>
+              <hackBaseline>0</hackBaseline>
+        </plugin>
+      </sensor>
+    </gazebo> -->
+    <!--====================== Plugin IMU 1 ======================-->
+    <gazebo reference="imu_1">
+        <sensor name="imu_sensor_1" type="imu">
+            <always_on>true</always_on>
+            <update_rate>100</update_rate>
+            <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin_1">
+                <topicName>imu1</topicName>
+                <bodyName>imu_1</bodyName>
+                <updateRateHZ>10.0</updateRateHZ>
+                <gaussianNoise>0.0</gaussianNoise>
+                <xyzOffset>0 0 0</xyzOffset>
+                <rpyOffset>0 0 0</rpyOffset>
+                <frameName>imu_1</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+    <!--====================== Plugin IMU 2 ======================-->
+    <gazebo reference="imu_2">
+        <sensor name="imu_sensor_2" type="imu">
+            <always_on>true</always_on>
+            <update_rate>100</update_rate>
+            <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin_2">
+                <topicName>imu2</topicName>
+                <bodyName>imu_2</bodyName>
+                <updateRateHZ>10.0</updateRateHZ>
+                <gaussianNoise>0.0</gaussianNoise>
+                <xyzOffset>0 0 0</xyzOffset>
+                <rpyOffset>0 0 0</rpyOffset>
+                <frameName>imu_2</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/strirus_robot</robotNamespace>
+            <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        </plugin>
+    </gazebo>
+
+    <!-- Joint state publisher can be used either here, or in controller.yaml+roslaunch node args -->
+    <gazebo>
+        <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+            <robotNamespace>/strirus_robot</robotNamespace>
+            <jointName>leg_left_5_revolute_joint, leg_left_4_revolute_joint, leg_left_3_revolute_joint,
+                leg_left_2_revolute_joint, leg_left_1_revolute_joint, leg_left_0_revolute_joint,
+                leg_right_5_revolute_joint, leg_right_4_revolute_joint, leg_right_3_revolute_joint,
+                leg_right_2_revolute_joint, leg_right_1_revolute_joint, leg_right_0_revolute_joint, segment_up_revolute,
+                segment_side_revolute
+            </jointName>
+            <updateRate>60.0</updateRate>
+            <alwaysOn>true</alwaysOn>
+        </plugin>
+    </gazebo>
+
+</robot>

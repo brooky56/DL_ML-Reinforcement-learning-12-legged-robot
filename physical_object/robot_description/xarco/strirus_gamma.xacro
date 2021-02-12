@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot name="strirus_gamma" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="strirus_sim_settings"
+                    value="${load_yaml('$(find robot_description)/config/strirus_sim_settings.yaml')}"/>
+    <xacro:property name="pparam"
+                    value="${load_yaml('$(find robot_description)/config/strirus_sim_phys_params.yaml')}"/>
+
+    <!-- Some constants -->
+    <xacro:property name="deg2rad" value="${pi / 180}"/>
+    <xacro:property name="rad2deg" value="${180 / pi}"/>
+    <xacro:property name="number_of_legs" value="${6 - 1}"/>
+    <xacro:property name="amount_of_legs_one_part" value="${3}"/>
+
+    <!-- includes parts -->
+    <xacro:include filename="$(find robot_description)/xarco/materials.xacro"/>
+    <xacro:include filename="$(find robot_description)/xarco/strirus_gamma_body_bridge.xacro"/>
+    <!-- For testing only 2 legs -->
+    <!-- <xacro:include filename="$(find robot_description)/xarco/experimental/strirus_gamma_legs_test.xacro"/> -->
+    <xacro:include filename="$(find robot_description)/xarco/strirus_gamma_legs.xacro"/>
+    <xacro:include filename="$(find robot_description)/xarco/strirus_gamma_gazebo.gazebo"/>
+
+</robot>

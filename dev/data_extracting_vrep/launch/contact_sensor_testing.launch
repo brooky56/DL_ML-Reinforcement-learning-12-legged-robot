@@ -1,0 +1,58 @@
+<launch>
+    <arg name="robot_name" default="strirus_gamma"/>
+    <arg name="robot_base_frame" default="base_footprint"/>
+    <arg name="world_frame" default="world"/>
+
+    <include file="$(find robot_description)/launch/strirus_robot.xml">
+        <arg name="sim" value="1"/>
+    </include>
+
+    <arg name="paused" default="true"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="true"/>
+    <arg name="world_name" default="$(find world_description)/worlds/testing_area.world"/>
+
+    <include file="$(find world_description)/launch/terrain_world.launch">
+        <arg name="world_name" value="$(arg world_name)"/>
+        <arg name="debug" value="false"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    </include>
+
+    <param name="robot_description"
+           command="$(find xacro)/xacro '$(find robot_description)/xarco/strirus_gamma.xacro'"/>
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+          args="-param robot_description -urdf -model strirus_gamma"/>
+
+    <node name="ideal_robot_localization" pkg="sim_perception_map_first_iter" type="ideal_robot_localization.py"
+          output="screen" required="false">
+        <param name="robot_name" value="$(arg robot_name)"/>
+        <param name="robot_base_frame" value="$(arg robot_base_frame)"/>
+        <param name="world_frame" value="$(arg world_frame)"/>
+        <param name="debug" value="$(arg debug)"/>
+    </node>
+
+    <!-- <node name="extract_one_contact" pkg="sim_perception_map_first_iter" type="extract_one_contact.py" output="screen" required="false">
+        <param name="world_frame" value="$(arg world_frame)"/>
+        <param name="publisher_topic" value="/leg_left_0_contact_points"/>
+        <param name="listener_topic" value="/leg_left_0_bumper"/>
+        <param name="debug" value="$(arg debug)"/>
+    </node> -->
+
+    <!-- listener topic should be changed in code manually -->
+    <node name="extract_point_cloud_of_contacts" pkg="sim_perception_map_first_iter"
+          type="extract_point_cloud_of_contacts.py" output="screen" required="false">
+        <param name="world_frame" value="$(arg world_frame)"/>
+        <param name="publisher_topic" value="/all_legs_contact_points"/>
+        <param name="debug" value="$(arg debug)"/>
+    </node>
+
+    <!-- <arg name="rvizconfig" default="$(find sim_perception_map_first_iter)/rviz/rviz_config.rviz" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" /> -->
+
+
+</launch>

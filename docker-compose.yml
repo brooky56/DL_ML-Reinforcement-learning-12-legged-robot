@@ -1,0 +1,17 @@
+version: '2.3'
+
+services:
+  ros-master:
+    image: ros_strirus_env
+    restart: always
+    ports:
+      - '2222:22'
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - .:/home/app/catkin_ws/src/strirus_gait_planning
+      - /dev:/dev
+    environment:
+      - DISPLAY=${DISPLAY}
+    devices:
+      - /dev/input:/dev/input
+      

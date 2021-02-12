@@ -1,0 +1,6 @@
+<launch>
+    <node name="pcl_convert" pkg="sim_perception_map_first_iter" type="pcl_convert" respawn="false" output="screen">
+        <param name="point_cloud_topic" value="/all_legs_contact_points"/>
+        <param name="output_file" value="$(find sim_perception_map_first_iter)/out/output_file.txt"/>
+    </node>
+</launch>

@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+<robot
+        xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Body description -->
+    <link name="base_footprint"/>
+    <joint name="base_footprint_body_1_part_fixed" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="body_1_part"/>
+        <origin rpy="0  0  0" xyz="0 0 ${pparam['leg']['height']}"/>
+    </joint>
+    <!-- body 1 -->
+    <link name="body_1_part">
+        <inertial>
+            <mass value="${pparam['body_1']['mass']}"/>
+            <origin rpy="0  0  0"
+                    xyz="${pparam['body_1']['CoM']['x']} ${pparam['body_1']['CoM']['y']} ${pparam['body_1']['CoM']['z']}"/>
+            <inertia
+                    ixx="${pparam['body_1']['inertia']['ixx']}" ixy="${pparam['body_1']['inertia']['ixy']}"
+                    ixz="${pparam['body_1']['inertia']['ixz']}"
+                    iyy="${pparam['body_1']['inertia']['iyy']}" iyz="${pparam['body_1']['inertia']['iyz']}"
+                    izz="${pparam['body_1']['inertia']['izz']}"/>
+        </inertial>
+        <collision>
+            <origin rpy="0  0  0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot_description/strirus_cad_design/stl/body_1_collision.stl" scale="1 1 1"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin rpy="0  0  0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot_description/strirus_cad_design/stl/body_1_visual.stl" scale="1 1 1"/>
+                <!-- <mesh filename="package://robot_description/strirus_cad_design/stl/body_1_collision.stl" scale="1 1 1"/> -->
+            </geometry>
+            <material name="white"/>
+        </visual>
+    </link>
+    <!-- tof camera 1-->
+    <link name="tof_camera_1"></link>
+    <joint name="body_1_part_tof_camera_1_fixed" type="fixed">
+        <parent link="body_1_part"/>
+        <child link="tof_camera_1"/>
+        <origin rpy="0  0  ${pi}"
+                xyz="${pparam['body_1']['coords']['tof_camera_1']['x']} ${pparam['body_1']['coords']['tof_camera_1']['y']} ${pparam['body_1']['coords']['tof_camera_1']['z']}"/>
+    </joint>
+    <!-- imu 1 -->
+    <link name="imu_1"></link>
+    <joint name="body_1_part_imu_1_fixed" type="fixed">
+        <parent link="body_1_part"/>
+        <child link="imu_1"/>
+        <origin rpy="0  0  0"
+                xyz="${pparam['body_1']['coords']['imu_1']['x']} ${pparam['body_1']['coords']['imu_1']['y']} ${pparam['body_1']['coords']['imu_1']['z']}"/>
+    </joint>
+    <!-- body 2 -->
+    <link name="body_2_part">
+        <inertial>
+            <mass value="${pparam['body_2']['mass']}"/>
+            <origin rpy="0  0  0"
+                    xyz="${pparam['body_2']['CoM']['x']} ${pparam['body_2']['CoM']['y']} ${pparam['body_2']['CoM']['z']}"/>
+            <inertia
+                    ixx="${pparam['body_2']['inertia']['ixx']}" ixy="${pparam['body_2']['inertia']['ixy']}"
+                    ixz="${pparam['body_2']['inertia']['ixz']}"
+                    iyy="${pparam['body_2']['inertia']['iyy']}" iyz="${pparam['body_2']['inertia']['iyz']}"
+                    izz="${pparam['body_2']['inertia']['izz']}"/>
+        </inertial>
+        <collision>
+            <origin rpy="0  0  0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot_description/strirus_cad_design/stl/body_2_collision.stl"
+                      scale="1 1 1"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin rpy="0  0  0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot_description/strirus_cad_design/stl/body_2_visual.stl" scale="1 1 1"/>
+                <!-- <mesh filename="package://robot_description/strirus_cad_design/stl/body_2_collision.stl" scale="1 1 1"/> -->
+            </geometry>
+            <material name="white"/>
+        </visual>
+    </link>
+    <!-- tof camera 2 -->
+    <link name="tof_camera_2"/>
+    <joint name="body_2_part_tof_camera_2_fixed" type="fixed">
+        <parent link="body_2_part"/>
+        <child link="tof_camera_2"/>
+        <origin rpy="0  0  0"
+                xyz="${pparam['body_2']['coords']['tof_camera_2']['x']} ${pparam['body_2']['coords']['tof_camera_2']['y']} ${pparam['body_2']['coords']['tof_camera_2']['z']}"/>
+    </joint>
+    <!-- imu 1 -->
+    <link name="imu_2"/>
+    <joint name="body_2_part_imu_2_fixed" type="fixed">
+        <parent link="body_2_part"/>
+        <child link="imu_2"/>
+        <origin rpy="0  0  0"
+                xyz="${pparam['body_2']['coords']['imu_2']['x']} ${pparam['body_2']['coords']['imu_2']['y']} ${pparam['body_2']['coords']['imu_2']['z']}"/>
+    </joint>
+    <!-- bridge 1 -->
+    <link name="bridge_1_part">
+        <inertial>
+            <mass value="${pparam['bridge_1']['mass']}"/>
+            <origin rpy="0  0  0"
+                    xyz="${pparam['bridge_1']['CoM']['x']} ${pparam['bridge_1']['CoM']['y']} ${pparam['bridge_1']['CoM']['z']}"/>
+            <inertia
+                    ixx="${pparam['bridge_1']['inertia']['ixx']}" ixy="${pparam['bridge_1']['inertia']['ixy']}"
+                    ixz="${pparam['bridge_1']['inertia']['ixz']}"
+                    iyy="${pparam['bridge_1']['inertia']['iyy']}" iyz="${pparam['bridge_1']['inertia']['iyz']}"
+                    izz="${pparam['bridge_1']['inertia']['izz']}"/>
+        </inertial>
+        <collision>
+            <origin rpy="0  0  0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot_description/strirus_cad_design/stl/bridge_1_collision.stl"
+                      scale="1 1 1"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin rpy="0  0  0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot_description/strirus_cad_design/stl/bridge_1_visual.stl" scale="1 1 1"/>
+                <!-- <mesh filename="package://robot_description/strirus_cad_design/stl/bridge_1_collision.stl" scale="1 1 1"/> -->
+            </geometry>
+            <material name="white"/>
+        </visual>
+    </link>
+    <!-- bridge 2 -->
+    <link name="bridge_2_part">
+        <inertial>
+            <mass value="${pparam['bridge_2']['mass']}"/>
+            <origin rpy="0  0  0"
+                    xyz="${pparam['bridge_2']['CoM']['x']} ${pparam['bridge_2']['CoM']['y']} ${pparam['bridge_2']['CoM']['z']}"/>
+            <inertia
+                    ixx="${pparam['bridge_2']['inertia']['ixx']}" ixy="${pparam['bridge_2']['inertia']['ixy']}"
+                    ixz="${pparam['bridge_2']['inertia']['ixz']}"
+                    iyy="${pparam['bridge_2']['inertia']['iyy']}" iyz="${pparam['bridge_2']['inertia']['iyz']}"
+                    izz="${pparam['bridge_2']['inertia']['izz']}"/>
+        </inertial>
+        <collision>
+            <origin rpy="0  0  0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot_description/strirus_cad_design/stl/bridge_2_collision.stl"
+                      scale="1 1 1"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin rpy="0  0  0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot_description/strirus_cad_design/stl/bridge_2_visual.stl" scale="1 1 1"/>
+                <!-- <mesh filename="package://robot_description/strirus_cad_design/stl/bridge_2_collision.stl" scale="1 1 1"/> -->
+            </geometry>
+            <material name="orange"/>
+        </visual>
+    </link>
+    <!-- bridge joints -->
+    <xacro:property name="segment_dof" value="${strirus_sim_settings['segments']['segment_dof']}"/>
+    <xacro:if value="${str(segment_dof) == '0' or str(segment_dof) == '1up'}">
+        <joint name="segment_side_fixed" type="fixed">
+            <parent link="body_1_part"/>
+            <child link="bridge_1_part"/>
+            <origin rpy="0 0 ${-deg2rad*strirus_sim_settings['segments']['init_side_seg_angle']}"
+                    xyz="${pparam['body_1']['coords']['bridge_1']['x']} ${pparam['body_1']['coords']['bridge_1']['y']} ${pparam['body_1']['coords']['bridge_1']['z']}"/>
+        </joint>
+    </xacro:if>
+
+    <xacro:if value="${str(segment_dof) == '0' or str(segment_dof) == '1side'}">
+        <joint name="segment_up_fixed" type="fixed">
+            <parent link="bridge_1_part"/>
+            <child link="bridge_2_part"/>
+            <origin rpy="0 ${-deg2rad*strirus_sim_settings['segments']['init_up_seg_angle']} 0"
+                    xyz="${pparam['bridge_1']['coords']['bridge_2']['x']} ${pparam['bridge_1']['coords']['bridge_2']['y']} ${pparam['bridge_1']['coords']['bridge_2']['z']}"/>
+        </joint>
+    </xacro:if>
+
+    <xacro:if value="${str(segment_dof) == '1up' or str(segment_dof) == '2'}">
+        <joint name="segment_up_revolute" type="revolute">
+            <parent link="bridge_1_part"/>
+            <child link="bridge_2_part"/>
+            <origin rpy="0 ${-deg2rad*strirus_sim_settings['segments']['init_up_seg_angle']} 0"
+                    xyz="${pparam['bridge_1']['coords']['bridge_2']['x']} ${pparam['bridge_1']['coords']['bridge_2']['y']} ${pparam['bridge_1']['coords']['bridge_2']['z']}"/>
+            <axis xyz="0 -1  0"/>
+            <limit effort="${strirus_sim_settings['segments']['effort_lim_up']}"
+                   lower="${deg2rad*strirus_sim_settings['segments']['jlimits_up']['lower']}"
+                   upper="${deg2rad*strirus_sim_settings['segments']['jlimits_up']['upper']}"
+                   velocity="${deg2rad*strirus_sim_settings['segments']['jvel_lim_up']}"/>
+            <dynamics damping="${strirus_sim_settings['segments']['damping_up']}"
+                      friction="${strirus_sim_settings['segments']['friction_up']}"/>
+        </joint>
+    </xacro:if>
+
+    <xacro:if value="${str(segment_dof) == '1side' or str(segment_dof) == '2'}">
+        <joint name="segment_side_revolute" type="revolute">
+            <parent link="body_1_part"/>
+            <child link="bridge_1_part"/>
+            <origin rpy="0 0 ${-deg2rad*strirus_sim_settings['segments']['init_side_seg_angle']}"
+                    xyz="${pparam['body_1']['coords']['bridge_1']['x']} ${pparam['body_1']['coords']['bridge_1']['y']} ${pparam['body_1']['coords']['bridge_1']['z']}"/>
+            <axis xyz="0 0  -1"/>
+            <limit effort="${strirus_sim_settings['segments']['effort_lim_side']}"
+                   lower="${deg2rad*strirus_sim_settings['segments']['jlimits_side']['lower']}"
+                   upper="${deg2rad*strirus_sim_settings['segments']['jlimits_side']['upper']}"
+                   velocity="${deg2rad*strirus_sim_settings['segments']['jvel_lim_side']}"/>
+            <dynamics damping="${strirus_sim_settings['segments']['damping_side']}"
+                      friction="${strirus_sim_settings['segments']['friction_side']}"/>
+        </joint>
+    </xacro:if>
+
+    <joint name="bridge_2_part_body_2_part_fixed" type="fixed">
+        <parent link="bridge_2_part"/>
+        <child link="body_2_part"/>
+        <origin rpy="0 0 0"
+                xyz="${pparam['bridge_2']['coords']['body_2']['x']} ${pparam['bridge_2']['coords']['body_2']['y']} ${pparam['bridge_2']['coords']['body_2']['z']}"/>
+    </joint>
+
+</robot>

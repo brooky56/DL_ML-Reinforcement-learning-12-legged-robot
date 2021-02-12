@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<link name="motor_box_left_0">
+        <inertial>
+            <mass value="${pparam['motor_box']['mass']}"/>
+            <origin rpy="0  0  0" xyz="${pparam['motor_box']['CoM']['x']} ${pparam['motor_box']['CoM']['y']} ${pparam['motor_box']['CoM']['z']}"/>
+            <inertia
+                ixx="${pparam['motor_box']['inertia']['ixx']}" ixy="${pparam['motor_box']['inertia']['ixy']}" ixz="${pparam['motor_box']['inertia']['ixz']}"
+                iyy="${pparam['motor_box']['inertia']['iyy']}" iyz="${pparam['motor_box']['inertia']['iyz']}"
+                izz="${pparam['motor_box']['inertia']['izz']}"/>
+        </inertial>
+            <collision>
+                <origin rpy="0  0  0" xyz="0 0 0"/>
+                <geometry>
+                        <mesh filename="package://robot_description/strirus_cad_design/stl/motor_box_collision.stl" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <visual>
+                <origin rpy="0  0  0" xyz="0 0 0"/>
+                <geometry>
+                        <mesh filename="package://robot_description/strirus_cad_design/stl/motor_box_visual.stl" scale="1 1 1"/>
+                </geometry>
+                <material name="white"/>
+            </visual>
+      </link>
+
+      <joint name="motor_box_left_0_fixed_joint" type="fixed">
+        <child link="motor_box_left_0"/>
+        <parent link="body_1_part"/>
+                    <origin rpy="0       0        ${deg2rad*(90) * 1}"
+                            xyz="${pparam['body_1']['coords']['0_deg_motor_box_far']['x']} ${pparam['body_1']['coords']['0_deg_motor_box_far']['y']}  ${0}"/>
+    </joint>
+
+
+<link name="motor_box_right_0">
+        <inertial>
+            <mass value="${pparam['motor_box']['mass']}"/>
+            <origin rpy="0  0  0" xyz="${pparam['motor_box']['CoM']['x']} ${pparam['motor_box']['CoM']['y']} ${pparam['motor_box']['CoM']['z']}"/>
+            <inertia
+                ixx="${pparam['motor_box']['inertia']['ixx']}" ixy="${pparam['motor_box']['inertia']['ixy']}" ixz="${pparam['motor_box']['inertia']['ixz']}"
+                iyy="${pparam['motor_box']['inertia']['iyy']}" iyz="${pparam['motor_box']['inertia']['iyz']}"
+                izz="${pparam['motor_box']['inertia']['izz']}"/>
+        </inertial>
+            <collision>
+                <origin rpy="0  0  0" xyz="0 0 0"/>
+                <geometry>
+                        <mesh filename="package://robot_description/strirus_cad_design/stl/motor_box_collision.stl" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <visual>
+                <origin rpy="0  0  0" xyz="0 0 0"/>
+                <geometry>
+                        <mesh filename="package://robot_description/strirus_cad_design/stl/motor_box_visual.stl" scale="1 1 1"/>
+                </geometry>
+                <material name="white"/>
+            </visual>
+      </link>
+
+<joint name="motor_box_right_0_fixed_joint" type="fixed">
+        <child link="motor_box_right_0"/>
+            <parent link="body_1_part"/>
+                    <origin rpy="0       0        ${deg2rad*(90+15) * (-1)}"
+                            xyz="${pparam['body_1']['coords']['15_deg_motor_box']['x']} ${pparam['body_1']['coords']['15_deg_motor_box']['y']*(-1)}  ${0}"/>
+    </joint>
+
+      <link name="leg_left_0">
+        <inertial>
+            <mass value="${pparam['leg']['mass']}"/>
+            <origin rpy="0  0  0" xyz="${pparam['leg']['CoM']['x']} ${pparam['leg']['CoM']['y']} ${pparam['leg']['CoM']['z']}"/>
+            <inertia
+                ixx="${pparam['leg']['inertia']['ixx']}" ixy="${pparam['leg']['inertia']['ixy']}" ixz="${pparam['leg']['inertia']['ixz']}"
+                iyy="${pparam['leg']['inertia']['iyy']}" iyz="${pparam['leg']['inertia']['iyz']}"
+                izz="${pparam['leg']['inertia']['izz']}"/>
+        </inertial>
+            <collision>
+                <origin rpy="0  0  0" xyz="0 0 0"/>
+                <geometry>
+                        <!-- <box size="0.1 0.0065 0.08"/> -->
+                        <mesh filename="package://robot_description/strirus_cad_design/stl/leg_80_collision.stl" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                        <!-- <box size="0.1 0.0065 0.08"/> -->
+                        <mesh filename="package://robot_description/strirus_cad_design/stl/leg_80_visual.stl" scale="1 1 1"/>
+                </geometry>
+            </visual>
+      </link>
+
+            <joint name="leg_left_0_revolute_joint" type="revolute">
+             <parent link="motor_box_left_0"/>
+            <child link="leg_left_0"/>
+            <origin rpy="0 ${deg2rad*0} ${-strirus_sim_settings['leg']['shape_dir']*deg2rad*90*1}" xyz="${pparam['motor_box']['coords']['leg']['x']+ pparam['leg']['thickness']/2} ${pparam['motor_box']['coords']['leg']['y']} ${pparam['motor_box']['coords']['leg']['z']}"/>
+            <!--=============== Joint properties ===============-->
+            <axis xyz="0 1  0"/>
+            <limit effort="30" lower="-1e+5" upper="1e+5" velocity="3.0"/>
+            <dynamics damping="${strirus_sim_settings['leg']['damping']}" friction="${strirus_sim_settings['leg']['friction']}"/>
+      </joint>
+
+            <link name="leg_right_0">
+        <inertial>
+            <mass value="${pparam['leg']['mass']}"/>
+            <origin rpy="0  0  0" xyz="${pparam['leg']['CoM']['x']} ${pparam['leg']['CoM']['y']} ${pparam['leg']['CoM']['z']}"/>
+            <inertia
+                ixx="${pparam['leg']['inertia']['ixx']}" ixy="${pparam['leg']['inertia']['ixy']}" ixz="${pparam['leg']['inertia']['ixz']}"
+                iyy="${pparam['leg']['inertia']['iyy']}" iyz="${pparam['leg']['inertia']['iyz']}"
+                izz="${pparam['leg']['inertia']['izz']}"/>
+        </inertial>
+            <collision>
+                <origin rpy="0  0  0" xyz="0 0 0"/>
+                <geometry>
+                        <!-- <box size="0.1 0.0065 0.08"/> -->
+                        <mesh filename="package://robot_description/strirus_cad_design/stl/leg_80_collision.stl" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                        <!-- <box size="0.1 0.0065 0.08"/> -->
+                        <mesh filename="package://robot_description/strirus_cad_design/stl/leg_80_visual.stl" scale="1 1 1"/>
+                </geometry>
+            </visual>
+      </link>
+
+            <joint name="leg_right_0_revolute_joint" type="revolute">
+             <parent link="motor_box_right_0"/>
+            <child link="leg_right_0"/>
+            <origin rpy="0 ${deg2rad*0} ${-strirus_sim_settings['leg']['shape_dir']*deg2rad*90*(-1)}" xyz="${pparam['motor_box']['coords']['leg']['x']+ pparam['leg']['thickness']/2} ${pparam['motor_box']['coords']['leg']['y']} ${pparam['motor_box']['coords']['leg']['z']}"/>
+            <!--=============== Joint properties ===============-->
+            <axis xyz="0 1  0"/>
+            <limit effort="300" lower="-1e+5" upper="1e+5" velocity="3.0"/>
+            <dynamics damping="${strirus_sim_settings['leg']['damping']}" friction="${strirus_sim_settings['leg']['friction']}"/>
+      </joint>
+
+<gazebo reference="body_1_part">
+        <mu1 value="10000.0"/>
+        <mu2 value="10000.0"/>
+        <kp  value="10000000.0" />
+        <kd  value="1.0" />
+        <fdir1 value="1 0 0"/>
+          <!-- <collision>
+        <surface>
+          <bounce>
+            <restitution_coefficient>0</restitution_coefficient>
+            <threshold>0</threshold>
+          </bounce>
+          <contact>
+            <ode>
+              <soft_cfm>0</soft_cfm>
+              <soft_erp>0.200000</soft_erp>
+              <kp>10000000000000.000000</kp>
+              <kd>100000000000.000000</kd>
+              <max_vel>-1</max_vel>
+              <min_depth>0</min_depth>
+            </ode>
+          </contact>
+          </surface>
+          </collision> -->
+        </gazebo>
+
+<gazebo reference="body_2_part">
+        <mu1 value="10000.0"/>
+        <mu2 value="10000.0"/>
+        <kp  value="10000000.0" />
+        <kd  value="1.0" />
+        <fdir1 value="1 0 0"/>
+          
+          <material>Gazebo/Orange</material>
+        </gazebo>
+
+<gazebo reference="leg_left_0">
+        <mu1 value="10000.0"/>
+        <mu2 value="10000.0"/>
+        <kp  value="10000000.0" />
+        <kd  value="1.0" />
+        <fdir1 value="1 0 0"/>
+          <!-- <collision>
+        <surface>
+          <bounce>
+            <restitution_coefficient>0</restitution_coefficient>
+            <threshold>0</threshold>
+          </bounce>
+          <contact>
+            <ode>
+              <soft_cfm>0</soft_cfm>
+              <soft_erp>0.200000</soft_erp>
+              <kp>10000000000000.000000</kp>
+              <kd>100000000000.000000</kd>
+              <max_vel>-1</max_vel>
+              <min_depth>0</min_depth>
+            </ode>
+          </contact>
+          </surface>
+          </collision> -->
+        </gazebo>
+
+<gazebo reference="leg_right_0">
+        <mu1 value="10000.0"/>
+        <mu2 value="10000.0"/>
+        <kp  value="10000000.0" />
+        <kd  value="1.0" />
+        <fdir1 value="1 0 0"/>
+          <material>Gazebo/Green</material>
+        </gazebo>
+
+      <transmission name="tran_0">
+        <type>transmission_interface/SimpleTransmission</type>
+          <joint name="leg_left_0_revolute_joint">
+            <!-- <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> -->
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+          </joint>
+        	<actuator name="motor_0">
+            <mechanicalReduction>1</mechanicalReduction>
+        	</actuator>
+      </transmission>
+
+          <transmission name="tran_1">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="motor_1">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="leg_right_0_revolute_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+    </transmission>
+
+</robot>

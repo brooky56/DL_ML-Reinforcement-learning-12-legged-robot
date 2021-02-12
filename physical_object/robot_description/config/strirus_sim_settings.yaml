@@ -1,0 +1,22 @@
+# ideal_leg_motors: 0 - no, 1 -yes
+# leg_fancy_physics: 0 - no, 1 - yes
+# shape_dir: 1 - C shape, -1 - hook shape (C shape 180 degree)
+leg: { leg_fancy_physics: 1,
+       damping: 0.001, friction: 0.0, shape_dir: 1 }
+# angle_btw_both_legs: in degrees, or 'specific' for choosing specific angle for each leg
+# init_angle_0_l_leg: in degrees, initial position for 1st left leg. 0 degree = 6 hours
+# init_angle_0_r_leg: in degrees, initial position for 1st right leg. 0 degree = 6 hours
+# l_specific_angle_btw_legs: if angle_btw_both_legs='specific', then this val is array of degrees for left side
+# l_specific_angle_btw_legs: if angle_btw_both_legs='specific', then this val is array of degrees for right side
+angle_btw_legs: { angle_btw_both_legs: 120, init_angle_0_l_leg: 5, init_angle_0_r_leg: 5,
+                  l_specific_angle_btw_legs: "0,0,0,0,0,0", r_specific_angle_btw_legs: "0,0,0,0,0,0" }
+# angle btw leg and body: possible angles 0,15,30,45
+omni_angle: 15
+# segment_dof: '0' - fix ,'1up' - 1 dof, can move up-down,'1side' - 1 dof, can move left-right,'2' -2 dof
+# init_up_seg_angle: in degrees, initial angle for up-down segment, 0 is parallel to ground
+# init_side_seg_angle: in degrees, initial angle for side segment, 0 is parallel to ground
+# jlimits: in degrees, max joint angle
+segments: { segment_dof: 2, init_up_seg_angle: 0, init_side_seg_angle: 0,
+            jlimits_up: { lower: -65, upper: 65 }, jlimits_side: { lower: -15, upper: 15 },
+            jvel_lim_up: 0.5, jvel_lim_side: 0.5, effort_lim_up: 5, effort_lim_side: 5,
+            damping_up: 0.1, friction_up: 0.0, damping_side: 0.0, friction_side: 0.2 }

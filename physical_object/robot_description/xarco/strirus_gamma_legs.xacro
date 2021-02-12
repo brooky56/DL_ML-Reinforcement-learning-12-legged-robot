@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+    <!--===================== Parameters for legs =====================-->
+    <xacro:property name="omni_angle" value="${strirus_sim_settings['omni_angle']}"/>
+
+    <xacro:if value="${omni_angle == 15}">
+        <xacro:property name="x_body_1_init_leg_pos" value="${pparam['body_1']['coords']['15_deg_motor_box']['x']}"/>
+        <xacro:property name="y_body_1_init_leg_pos" value="${pparam['body_1']['coords']['15_deg_motor_box']['y']}"/>
+        <xacro:property name="x_body_2_init_leg_pos" value="${pparam['body_2']['coords']['15_deg_motor_box']['x']}"/>
+        <xacro:property name="y_body_2_init_leg_pos" value="${pparam['body_2']['coords']['15_deg_motor_box']['y']}"/>
+    </xacro:if>
+    <xacro:if value="${omni_angle == 30}">
+        <xacro:property name="x_body_1_init_leg_pos" value="${pparam['body_1']['coords']['30_deg_motor_box']['x']}"/>
+        <xacro:property name="y_body_1_init_leg_pos" value="${pparam['body_1']['coords']['30_deg_motor_box']['y']}"/>
+        <xacro:property name="x_body_2_init_leg_pos" value="${pparam['body_2']['coords']['30_deg_motor_box']['x']}"/>
+        <xacro:property name="y_body_2_init_leg_pos" value="${pparam['body_2']['coords']['30_deg_motor_box']['y']}"/>
+    </xacro:if>
+    <xacro:if value="${omni_angle == 45}">
+        <xacro:property name="x_body_1_init_leg_pos" value="${pparam['body_1']['coords']['45_deg_motor_box']['x']}"/>
+        <xacro:property name="y_body_1_init_leg_pos" value="${pparam['body_1']['coords']['45_deg_motor_box']['y']}"/>
+        <xacro:property name="x_body_2_init_leg_pos" value="${pparam['body_2']['coords']['45_deg_motor_box']['x']}"/>
+        <xacro:property name="y_body_2_init_leg_pos" value="${pparam['body_2']['coords']['45_deg_motor_box']['y']}"/>
+    </xacro:if>
+
+    <xacro:property name="dist_btw_legs" value="${pparam['distances']['dist_btw_legs']}"/>
+    <!--=========================================== Defining parameters ===========================================-->
+    <xacro:macro name="leg" params="prefix num side cur_ang">
+        <!--===================== Link description =====================-->
+        <link name="motor_box_${prefix}_${num}">
+            <inertial>
+                <mass value="${pparam['motor_box']['mass']}"/>
+                <origin rpy="0  0  0"
+                        xyz="${pparam['motor_box']['CoM']['x']} ${pparam['motor_box']['CoM']['y']} ${pparam['motor_box']['CoM']['z']}"/>
+                <inertia
+                        ixx="${pparam['motor_box']['inertia']['ixx']}" ixy="${pparam['motor_box']['inertia']['ixy']}"
+                        ixz="${pparam['motor_box']['inertia']['ixz']}"
+                        iyy="${pparam['motor_box']['inertia']['iyy']}" iyz="${pparam['motor_box']['inertia']['iyz']}"
+                        izz="${pparam['motor_box']['inertia']['izz']}"/>
+            </inertial>
+            <collision>
+                <origin rpy="0  0  0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://robot_description/strirus_cad_design/stl/motor_box_collision.stl"
+                          scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <visual>
+                <origin rpy="0  0  0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://robot_description/strirus_cad_design/stl/motor_box_visual.stl"
+                          scale="1 1 1"/>
+                </geometry>
+                <material name="white"/>
+            </visual>
+        </link>
+
+        <link name="leg_${prefix}_${num}">
+            <inertial>
+                <mass value="${pparam['leg']['mass']}"/>
+                <origin rpy="0  0  0"
+                        xyz="${pparam['leg']['CoM']['x']} ${pparam['leg']['CoM']['y']} ${pparam['leg']['CoM']['z']}"/>
+                <inertia
+                        ixx="${pparam['leg']['inertia']['ixx']}" ixy="${pparam['leg']['inertia']['ixy']}"
+                        ixz="${pparam['leg']['inertia']['ixz']}"
+                        iyy="${pparam['leg']['inertia']['iyy']}" iyz="${pparam['leg']['inertia']['iyz']}"
+                        izz="${pparam['leg']['inertia']['izz']}"/>
+            </inertial>
+            <collision>
+                <origin rpy="0  0  0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://robot_description/strirus_cad_design/stl/leg_80_collision.stl"
+                          scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://robot_description/strirus_cad_design/stl/leg_80_visual.stl"
+                          scale="1 1 1"/>
+                </geometry>
+            </visual>
+        </link>
+        <!--===================== Joint description =====================-->
+        <xacro:if value="${num % 2 and omni_angle == 0}">
+            <xacro:property name="x_body_1_init_leg_pos"
+                            value="${pparam['body_1']['coords']['0_deg_motor_box_far']['x']}"/>
+            <xacro:property name="y_body_1_init_leg_pos"
+                            value="${pparam['body_1']['coords']['0_deg_motor_box_far']['y']}"/>
+            <xacro:property name="x_body_2_init_leg_pos"
+                            value="${pparam['body_2']['coords']['0_deg_motor_box_far']['x']}"/>
+            <xacro:property name="y_body_2_init_leg_pos"
+                            value="${pparam['body_2']['coords']['0_deg_motor_box_far']['y']}"/>
+        </xacro:if>
+        <xacro:if value="${not (num % 2) and omni_angle == 0}">
+            <xacro:property name="x_body_1_init_leg_pos"
+                            value="${pparam['body_1']['coords']['0_deg_motor_box_close']['x']}"/>
+            <xacro:property name="y_body_1_init_leg_pos"
+                            value="${pparam['body_1']['coords']['0_deg_motor_box_close']['y']}"/>
+            <xacro:property name="x_body_2_init_leg_pos"
+                            value="${pparam['body_2']['coords']['0_deg_motor_box_close']['x']}"/>
+            <xacro:property name="y_body_2_init_leg_pos"
+                            value="${pparam['body_2']['coords']['0_deg_motor_box_close']['y']}"/>
+        </xacro:if>
+
+        <joint name="motor_box_${prefix}_${num}_fixed_joint" type="fixed">
+            <child link="motor_box_${prefix}_${num}"/>
+
+            <xacro:if value="${not(num >= amount_of_legs_one_part)}">
+                <parent link="body_1_part"/>
+                <origin rpy="0       0        ${deg2rad*(90+omni_angle) * side}"
+                        xyz="${x_body_1_init_leg_pos + dist_btw_legs * (num % amount_of_legs_one_part)} ${y_body_1_init_leg_pos*side}  ${0}"/>
+            </xacro:if>
+
+            <xacro:if value="${num >= amount_of_legs_one_part}">
+                <parent link="body_2_part"/>
+                <origin rpy="0       0        ${deg2rad*(90-omni_angle) * side}"
+                        xyz="${x_body_2_init_leg_pos + dist_btw_legs * (num % amount_of_legs_one_part)} ${y_body_2_init_leg_pos*side}  ${0}"/>
+            </xacro:if>
+        </joint>
+
+        <joint name="leg_${prefix}_${num}_revolute_joint" type="revolute">
+            <parent link="motor_box_${prefix}_${num}"/>
+            <child link="leg_${prefix}_${num}"/>
+            <origin rpy="0 ${deg2rad*cur_ang} ${-strirus_sim_settings['leg']['shape_dir']*deg2rad*90*side}"
+                    xyz="${pparam['motor_box']['coords']['leg']['x']+ pparam['leg']['thickness']/2} ${pparam['motor_box']['coords']['leg']['y']} ${pparam['motor_box']['coords']['leg']['z']}"/>
+            <!--=============== Joint properties ===============-->
+            <axis xyz="0 1  0"/>
+            <limit effort="300" lower="-1e+5" upper="1e+5" velocity="3.0"/>
+            <dynamics damping="${strirus_sim_settings['leg']['damping']}"
+                      friction="${strirus_sim_settings['leg']['friction']}"/>
+        </joint>
+
+        <!--===================== Leg transmission description =====================-->
+        <transmission name="leg_${prefix}_${num}_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="leg_${prefix}_${num}_revolute_joint">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                <!-- <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> -->
+            </joint>
+            <actuator name="leg_${prefix}_${num}_motor">
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+        <gazebo reference="leg_${prefix}_${num}">
+
+        </gazebo>
+        <!-- ============ Fancy physics of robot ================ -->
+        <xacro:if value="${strirus_sim_settings['leg']['leg_fancy_physics'] == 1}">
+            <gazebo reference="leg_${prefix}_${num}">
+                <mu1 value="100.0"/>
+                <mu2 value="100.0"/>
+                <material>Gazebo/Green</material>
+            </gazebo>
+        </xacro:if>
+
+        <!-- frameName seems not working data are given according to the world frame -->
+        <gazebo reference="leg_${prefix}_${num}">
+            <sensor name="leg_${prefix}_${num}_bumper" type="contact">
+                <always_on>true</always_on>
+                <update_rate>50</update_rate>
+                <contact>
+                    <collision>leg_${prefix}_${num}_collision</collision>
+                </contact>
+                <plugin name="leg_${prefix}_${num}_bumper_controller" filename="libgazebo_ros_bumper.so">
+                    <bumperTopicName>leg_${prefix}_${num}_bumper</bumperTopicName>
+                    <frameName>world</frameName>
+                </plugin>
+            </sensor>
+        </gazebo>
+
+    </xacro:macro>
+
+
+    <xacro:property name="angle_btw_legs" value="${strirus_sim_settings['angle_btw_legs']['angle_btw_both_legs']}"/>
+
+    <xacro:if value="${str(strirus_sim_settings['angle_btw_legs']['angle_btw_both_legs']) == 'specific'}">
+        <xacro:property name="angle_seq_l_leg"
+                        value="${strirus_sim_settings['angle_btw_legs']['l_specific_angle_btw_legs'].split(',')}"/>
+        <xacro:property name="angle_seq_r_leg"
+                        value="${strirus_sim_settings['angle_btw_legs']['r_specific_angle_btw_legs'].split(',')}"/>
+    </xacro:if>
+    <xacro:if value="${str(strirus_sim_settings['angle_btw_legs']['angle_btw_both_legs']) != 'specific'}">
+        <xacro:property name="range6" value="${[0,1,2,3,4,5]}"/>
+        <xacro:property name="angle_seq_l_leg"
+                        value="${[(strirus_sim_settings['angle_btw_legs']['init_angle_0_l_leg'] + i * angle_btw_legs) for i in range6]}"/>
+        <xacro:property name="angle_seq_r_leg"
+                        value="${[(strirus_sim_settings['angle_btw_legs']['init_angle_0_r_leg'] + i * angle_btw_legs) for i in range6]}"/>
+    </xacro:if>
+
+
+    <!--==================== Create needed number of legs (is implemented by recurcion) ====================-->
+    <xacro:macro name="create_legs" params="prefix side number angle_seq">
+        <xacro:leg prefix="${prefix}" num="${number}" side="${side}" cur_ang="${angle_seq[number]}"/>
+        <xacro:if value="${number}">
+            <xacro:create_legs number="${number-1}" prefix="${prefix}" side="${side}" angle_seq="${angle_seq}"/>
+        </xacro:if>
+    </xacro:macro>
+
+    <xacro:create_legs prefix="left" side="1" number="${number_of_legs}" angle_seq="${angle_seq_l_leg}"/>
+    <xacro:create_legs prefix="right" side="-1" number="${number_of_legs}" angle_seq="${angle_seq_r_leg}"/>
+</robot>
