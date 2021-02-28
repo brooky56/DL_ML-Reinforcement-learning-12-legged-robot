@@ -1,8 +1,9 @@
+
 # Reinforcement learning applied for 12-legged StriRus robot 
 
 # CoppeliaSim
 * Some results from simulation
-
+![recording_2021_02_28-17_41-55](https://user-images.githubusercontent.com/20328131/109426364-6f3f3700-79fe-11eb-9c35-6f1a2342a127.gif)
 ## PyRep
 
 ### For training purpose we use:
