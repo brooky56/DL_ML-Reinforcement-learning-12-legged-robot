@@ -1,13 +1,15 @@
-# Strirus_gait_planning
+# Reinforcement learning applied for 12-legged StriRus robot 
 
-## Project structure:
+# CoppeliaSim
+* Some results from simulation
 
-* [physical_object:](physical_object) contains **parameters** for all parts of the robot and simulation worlds *(simulation params and real_robot params)*
-* [drivers:](drivers) interfaces between **low-level** parts and particular **ros_node**, which work with these data 
-* [control:](control) interfaces between **driver and object** or **simulation and object**
-* [gait_planner:](gait_planner) contains algoritm for preparing aperiodic gaits on various terrains. *Connection layer* between **driver_node** and **control_node**
-* [dev:](dev) *testing/running* separate parts of the robot system
-* [release:](release) contains only **.launch** files to run simulation or real robot modules
+## PyRep
+
+### For training purpose we use:
+* [PyRep](https://github.com/stepjam/PyRep#what-happened-to-v-rep?) is a toolkit for robot learning research.
+* PyRep is built on top of CoppeliaSim
+
+```git clone https://github.com/stepjam/PyRep#what-happened-to-v-rep?```
 
 
 # Quick start
@@ -20,16 +22,52 @@
 3. ```catkin build && source devel/setup.bash```
 4. ```roslaunch sim_perception_map_first_iter contact_sensor_testing.launch``` 
 
+```
+docker run --rm -e CONTINUE_ON_STAGE_FAIL=true -v $(pwd):/root/catkin_ws/src pipeline
+```
 
 ## GamePad support:
-Inside the docker:
-* ```rosparam set joy_node/dev "/dev/input/js#"```
+Inside the docker ```rosparam set joy_node/dev "/dev/input/js#"```
+
+## CoppeliaSim_ROS_Bridge
+For common work with ROS as it used to be with Gazebo, it is needed to install several packages. Most of them should be installed once and their ```.so``` file should be put in ```/opt/$COPPELIASIM_RELEASE``` folder. It is already done during dockerfile building, but it might be needed to be done again. Here we go.
+
+### CoppeliaSim_ROS_Interface (simExtROS)
+It is the plugin, which connects CoppeliaSim with ROS. It should be built ones, and his ```catkin_ws/devel/lib/libsimExtROSInterface.so``` file should be copied to ```/opt/$COPPELIASIM_RELEASE```.
+
+It was already done, but if you need to add new messages or services, then you should do the following steps.
+
+1. ``` git clone https://github.com/CoppeliaRobotics/simExtROS.git```
+2. Edit meta/messages.txt and meta/services.txt if you need to include more ROS messages/services. You need to specify the full message/service type, i.e. geometry_msgs/Twist rather than Twist.
+3. ```catkin build```
+
+### 
+https://github.com/CoppeliaRobotics/simExtROS
+https://github.com/mahmoud-a-ali/coppeliasim_ros_services
+https://github.com/tud-cor/coppeliasim_msgs_srvs
+https://github.com/mahmoud-a-ali/coppeliasim_run
+https://github.com/tud-cor/coppeliasim_ros_control
+
 
 # Useful stuff
 ## Useful commands:
 ### ROS
 * ```export ROS_MASTER_URI=http://localhost:11311```
 * ```rosrun xacro xacro -o model.urdf model.urdf.xacro``` xacro to urdf format
+* 
+  
+### Docker
+* ```docker rm -f $(docker ps -a -q)``` clean all containers from pc
+* ```docker rmi -f $(docker images -a -q)``` clean all images from pc
+
+
+
+### Tmux
+* [Tmux tutorial (rus)](https://habr.com/ru/post/327630/)
+
+### VScode
+* When you want to see a preview of a markdown doc - ```ctrl+k v```
+
 
 ## Useful links:
 * [Ros control explanation](https://www.rosroboticslearning.com/ros-control)

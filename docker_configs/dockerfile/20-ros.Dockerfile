@@ -11,8 +11,7 @@ RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && \
                   catkin_init_workspace && \
                   cd ~/catkin_ws/ && \
                   catkin build --no-status && \
-                  echo 'source ~/catkin_ws/devel/setup.bash' >> ~/.bashrc &&\
-                  echo 'source /usr/share/gazebo/setup.sh' >> ~/.bashrc"
+                  echo 'source ~/catkin_ws/devel/setup.bash' >> ~/.bashrc"
 
 USER root
 
@@ -24,5 +23,4 @@ RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && \
                   catkin_init_workspace && \
                   cd ~/catkin_ws/ && \
                   catkin build --no-status && \
-                  echo 'source ~/catkin_ws/devel/setup.bash' >> ~/.bashrc &&\
-                  echo 'source /usr/share/gazebo/setup.sh' >> ~/.bashrc"
+                  echo 'source ~/catkin_ws/devel/setup.bash' >> ~/.bashrc"

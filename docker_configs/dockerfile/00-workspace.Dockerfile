@@ -1,5 +1,5 @@
-# FROM osrf/ros:noetic-desktop-full-focal
-FROM osrf/ros:melodic-desktop-full-bionic
+# FROM osrf/ros:noetic-desktop-focal
+FROM osrf/ros:melodic-desktop-bionic
 
 ARG APP_UID=1001
 
@@ -37,17 +37,20 @@ RUN apt-get update && apt-get install -q -y \
     mesa-utils \
     nano \
      python-catkin-tools\
-#    python3-catkin-tools\
- #   python3-osrf-pycommon\
+  #  python3-catkin-tools\
+  #  python3-osrf-pycommon\
      python-pip \
     python3-pip \
     tmux \
     htop \
+    git \
+    software-properties-common \
     psmisc \
     tree && \
   pip3 install \
     rospkg \
     numpy \
+    xmlschema \
     pyyaml && \
   rm -rf /var/lib/apt/lists/*
 

@@ -3,7 +3,7 @@
         xmlns:xacro="http://www.ros.org/wiki/xacro">
     <!-- Body description -->
     <link name="base_footprint"/>
-    <joint name="base_footprint_body_1_part_fixed" type="fixed">
+    <joint name="base_footprint_body_1_part_fixed_joint" type="fixed">
         <parent link="base_footprint"/>
         <child link="body_1_part"/>
         <origin rpy="0  0  0" xyz="0 0 ${pparam['leg']['height']}"/>
@@ -37,7 +37,7 @@
     </link>
     <!-- tof camera 1-->
     <link name="tof_camera_1"></link>
-    <joint name="body_1_part_tof_camera_1_fixed" type="fixed">
+    <joint name="body_1_part_tof_camera_1_fixed_joint" type="fixed">
         <parent link="body_1_part"/>
         <child link="tof_camera_1"/>
         <origin rpy="0  0  ${pi}"
@@ -45,7 +45,7 @@
     </joint>
     <!-- imu 1 -->
     <link name="imu_1"></link>
-    <joint name="body_1_part_imu_1_fixed" type="fixed">
+    <joint name="body_1_part_imu_1_fixed_joint" type="fixed">
         <parent link="body_1_part"/>
         <child link="imu_1"/>
         <origin rpy="0  0  0"
@@ -81,7 +81,7 @@
     </link>
     <!-- tof camera 2 -->
     <link name="tof_camera_2"/>
-    <joint name="body_2_part_tof_camera_2_fixed" type="fixed">
+    <joint name="body_2_part_tof_camera_2_fixed_joint" type="fixed">
         <parent link="body_2_part"/>
         <child link="tof_camera_2"/>
         <origin rpy="0  0  0"
@@ -89,7 +89,7 @@
     </joint>
     <!-- imu 1 -->
     <link name="imu_2"/>
-    <joint name="body_2_part_imu_2_fixed" type="fixed">
+    <joint name="body_2_part_imu_2_fixed_joint" type="fixed">
         <parent link="body_2_part"/>
         <child link="imu_2"/>
         <origin rpy="0  0  0"
@@ -154,7 +154,7 @@
     <!-- bridge joints -->
     <xacro:property name="segment_dof" value="${strirus_sim_settings['segments']['segment_dof']}"/>
     <xacro:if value="${str(segment_dof) == '0' or str(segment_dof) == '1up'}">
-        <joint name="segment_side_fixed" type="fixed">
+        <joint name="segment_side_fixed_joint" type="fixed">
             <parent link="body_1_part"/>
             <child link="bridge_1_part"/>
             <origin rpy="0 0 ${-deg2rad*strirus_sim_settings['segments']['init_side_seg_angle']}"
@@ -163,7 +163,7 @@
     </xacro:if>
 
     <xacro:if value="${str(segment_dof) == '0' or str(segment_dof) == '1side'}">
-        <joint name="segment_up_fixed" type="fixed">
+        <joint name="segment_up_fixed_joint" type="fixed">
             <parent link="bridge_1_part"/>
             <child link="bridge_2_part"/>
             <origin rpy="0 ${-deg2rad*strirus_sim_settings['segments']['init_up_seg_angle']} 0"
@@ -172,7 +172,7 @@
     </xacro:if>
 
     <xacro:if value="${str(segment_dof) == '1up' or str(segment_dof) == '2'}">
-        <joint name="segment_up_revolute" type="revolute">
+        <joint name="segment_up_revolute_joint" type="revolute">
             <parent link="bridge_1_part"/>
             <child link="bridge_2_part"/>
             <origin rpy="0 ${-deg2rad*strirus_sim_settings['segments']['init_up_seg_angle']} 0"
@@ -188,7 +188,7 @@
     </xacro:if>
 
     <xacro:if value="${str(segment_dof) == '1side' or str(segment_dof) == '2'}">
-        <joint name="segment_side_revolute" type="revolute">
+        <joint name="segment_side_revolute_joint" type="revolute">
             <parent link="body_1_part"/>
             <child link="bridge_1_part"/>
             <origin rpy="0 0 ${-deg2rad*strirus_sim_settings['segments']['init_side_seg_angle']}"
@@ -203,7 +203,7 @@
         </joint>
     </xacro:if>
 
-    <joint name="bridge_2_part_body_2_part_fixed" type="fixed">
+    <joint name="bridge_2_part_body_2_part_fixed_joint" type="fixed">
         <parent link="bridge_2_part"/>
         <child link="body_2_part"/>
         <origin rpy="0 0 0"

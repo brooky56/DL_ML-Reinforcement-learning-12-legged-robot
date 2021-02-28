@@ -8,7 +8,7 @@ leg: { leg_fancy_physics: 1,
 # init_angle_0_r_leg: in degrees, initial position for 1st right leg. 0 degree = 6 hours
 # l_specific_angle_btw_legs: if angle_btw_both_legs='specific', then this val is array of degrees for left side
 # l_specific_angle_btw_legs: if angle_btw_both_legs='specific', then this val is array of degrees for right side
-angle_btw_legs: { angle_btw_both_legs: 120, init_angle_0_l_leg: 5, init_angle_0_r_leg: 5,
+angle_btw_legs: { angle_btw_both_legs: 120, init_angle_0_l_leg: 0, init_angle_0_r_leg: 0,
                   l_specific_angle_btw_legs: "0,0,0,0,0,0", r_specific_angle_btw_legs: "0,0,0,0,0,0" }
 # angle btw leg and body: possible angles 0,15,30,45
 omni_angle: 15

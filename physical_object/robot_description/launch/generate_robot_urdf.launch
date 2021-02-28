@@ -1,0 +1,4 @@
+<launch>
+    <node name="strirus_urdf_generation" pkg="xacro" type="xacro" 
+    args="-o '$(find robot_description)/urdf/strirus_gamma_generated.urdf' '$(find robot_description)/xarco/strirus_gamma.xacro'" required="true" />
+    </launch>

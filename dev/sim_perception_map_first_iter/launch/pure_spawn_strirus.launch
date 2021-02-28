@@ -1,0 +1,12 @@
+<launch>
+    <include file="$(find robot_description)/launch/strirus_robot.xml">
+        <arg name="sim" value="1"/>
+    </include>
+
+    <param name="robot_description"
+           command="$(find xacro)/xacro '$(find robot_description)/xarco/strirus_gamma.xacro'"/>
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+          args="-param robot_description -urdf -model strirus_gamma"/>
+
+</launch>

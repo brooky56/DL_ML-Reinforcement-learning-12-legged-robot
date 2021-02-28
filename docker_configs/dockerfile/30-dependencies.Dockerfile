@@ -1,4 +1,5 @@
 # Sure that rosdep is installed and initialized
+USER root
 RUN apt-get update && \
 #  apt-get install -q -y python3-rosdep ; \
   apt-get install -q -y python-rosdep ; \
@@ -13,7 +14,7 @@ COPY . /tmp/dependencies
 RUN if find /tmp/dependencies | grep -q package.xml; then \
   sudo apt-get update && \
   rosdep update --rosdistro=melodic && \
- # rosdep update --rosdistro=noetic && \
+#  rosdep update --rosdistro=noetic && \
   rosdep install --from-paths /tmp/dependencies -r -y && \
   sudo rm -rf /var/lib/apt/lists/* \
   ; fi

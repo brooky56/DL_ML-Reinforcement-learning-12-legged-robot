@@ -12,8 +12,9 @@
 
         <!-- load the controllers joint_trajectory_controller-->
         <!-- joint_state_controller in args if needed-->
-        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
               output="screen" ns="/strirus_robot" args="
+          joint_state_controller
           joint5_position_controller_l
           joint4_position_controller_l
           joint3_position_controller_l
@@ -26,7 +27,7 @@
           joint3_position_controller_r
           joint2_position_controller_r
           joint1_position_controller_r
-          joint0_position_controller_r"/>
+          joint0_position_controller_r"/> -->
 
 
         <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"
