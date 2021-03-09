@@ -158,21 +158,16 @@ class StateActionNet(nn.Module):
 
     def forward(self, state, action):
         # link features state with enabled
-        image = state["cam_image"]
+        x = F.relu(self.linear1(state))
+        x = F.relu(self.linear2(x))
+        x = F.relu(self.linear3(x))
+        x = F.relu(self.linear4(x))
 
-        batch_size, _, h, w, c = image.shape
-        # Here we need to change from NHWC to NCHW
-        image = image.contiguous().permute(0, 1, 4, 2, 3).view(batch_size, -1, h, w)
-        image_features = self.image_net(image)
-        image_features = image_features.contiguous().view(batch_size, -1)
-
-        action = self.action_net(action)
-
-        x = torch.cat([image_features, action], dim=1)
-
-        x = self.main_net(x)
-
-        return x
+        mean    = (self.mean_linear(x))
+        log_std = self.log_std_linear(x)
+        log_std = torch.clamp(log_std, self.log_std_min, self.log_std_max)
+        
+        return mean, log_std
 
     @classmethod
     def get_from_params(

@@ -28,7 +28,9 @@ class CoppeliaSimEnvWrapper(EnvironmentSpec):
 
         # Task related initialisations in Simulator
         self.robot = objects.dummy.Dummy("Strirus")
-
+        self.imu_sensor = objects.sensor.Sensor("imu_sensor")
+        self.robot_ghost = objects.dummy.Dummy("goal_target")
+        self.robot_ghost_zero_pose = self.robot_ghost.get_pose()
         self.step_counter = 0
         self.max_step_count = 100
         self.target_pose = None
@@ -96,19 +98,33 @@ class CoppeliaSimEnvWrapper(EnvironmentSpec):
 
     def distance_to_goal(self):
         # Calculate distance to goal (difference between current position and goal position)
-        return []
+        goal_pos = self.goal.get_position()
+        robot_pos = self.robot_ghost.get_position()
+        return np.linalg.norm(np.array(robot_pos) - np.array(goal_pos))
 
     def setup_goal(self):
         # Set goal position
-        return []
+        goal_position = self.robot_ghost
+        # 2D goal randomization
+        self.target_pose = [goal_position[0] + (2 * np.random.rand() - 1.) * 0.1,
+                            goal_position[1] + (2 * np.random.rand() - 1.) * 0.1,
+                            goal_position[2]]
+        self.goal.set_pose(self.target_pose)
+
+        # Randomizing the RGB of the goal and the plane
+        rgb_values_goal = list(np.random.rand(3,))
+        rgb_values_plane = list(np.random.rand(3,))
+        self.stacking_area.set_color(rgb_values_plane)
+        self.initial_distance = self.distance_to_goal()
+
 
     def setup_scene(self):
         self.setup_goal()
-        # set initial positions
-        return []
+        self.robot_ghost.set_pose(self.robot_ghost_zero_pose)
 
     def get_observation(self):
-        joint_obs = []
+        # imu_data = self.imu_sensor.get_data()
+        joint_obs = self.handler.joints_state_space.get_data()
         return {"joint_obs": joint_obs}
 
     def collision_check(self):
@@ -123,5 +139,6 @@ class CoppeliaSimEnvWrapper(EnvironmentSpec):
         return success_reward
 
     def apply_controls(self, action):
-        # set new position
-        return []
+        robot_position = self.robot.get_position()
+        new_position = [robot_position[i] + (action[i] / 200.) for i in range(3)]
+        self.robot.set_position(new_position)
