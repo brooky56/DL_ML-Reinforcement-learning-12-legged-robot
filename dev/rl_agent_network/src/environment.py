@@ -29,14 +29,12 @@ class CoppeliaSimEnvWrapper(EnvironmentSpec):
         # Task related initialisations in Simulator
         self.robot = objects.dummy.Dummy("Strirus")
         self.imu_sensor = objects.sensor.Sensor("imu_sensor")
-        self.robot_ghost = objects.dummy.Dummy("goal_target")
+        self.robot_ghost = objects.dummy.Dummy("Goal")
         self.robot_ghost_zero_pose = self.robot_ghost.get_pose()
         self.step_counter = 0
         self.max_step_count = 100
         self.target_pose = None
         self.initial_distance = None
-        self.image_width, self.image_height = 320, 240
-        self.vision_sensor.set_resolution((self.image_width, self.image_height))
         self._history_len = 1
 
     # All methods are required for Gym environment

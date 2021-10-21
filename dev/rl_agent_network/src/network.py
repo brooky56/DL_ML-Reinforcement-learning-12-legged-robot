@@ -17,7 +17,7 @@ def _get_convolution_net(
         use_dropout: bool = False,
         activation: str = "ReLU"
 ) -> nn.Module:
-    channels = channels or [16, 32, 16]
+    channels = channels or [12, 3, 12]
     activation_fn = torch.nn.__dict__[activation]
 
     def _get_block(**conv_params):
@@ -66,7 +66,7 @@ def _get_linear_net(
         use_dropout: bool = False,
         activation: str = "ReLU"
 ) -> nn.Module:
-    features = features or [64, 128, 64]
+    features = features or [12, 128, 12]
     activation_fn = torch.nn.__dict__[activation]
 
     def _get_block(**linear_params):

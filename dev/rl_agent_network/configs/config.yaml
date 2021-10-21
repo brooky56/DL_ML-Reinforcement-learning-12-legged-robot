@@ -15,16 +15,16 @@ agents:
     agent: StriRus
 
     state_net_params:  # state -> hidden representation
-      image_net_params:
+      imu_net_params:
         history_len: 1
-        channels: [16, 32, 32, 32, 16]
+        channels: [16, 3]
         use_bias: True
         use_groups: False
         use_normalization: True
         use_dropout: False
         activation: ReLU
       main_net_params:
-        features: [256, 256]
+        features: [15, 3]
         use_bias: False
         use_normalization: False
         use_dropout: False
@@ -39,28 +39,28 @@ agents:
     agent: StriRusStateActionCritic
 
     state_action_net_params:  # state -> hidden representation
-      image_net_params:
+      imu_net_params:
         history_len: 1
-        channels: [16, 32, 32, 32, 16]
+        channels: [15, 3]
         use_bias: True
         use_groups: False
         use_normalization: True
         use_dropout: False
         activation: ReLU
       action_net_params:
-        features: [64, 64]
+        features: [12, 3]
         use_bias: False
         use_normalization: False
         use_dropout: False
         activation: ReLU
       main_net_params:
-        features: [256, 256]
+        features: [15, 3]
         use_bias: False
         use_normalization: False
         use_dropout: False
         activation: ReLU
     value_head_params:  # hidden representation -> value
-      in_features: 256
+      in_features: 15
       out_features: 1
 
 

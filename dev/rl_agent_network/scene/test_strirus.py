@@ -5,7 +5,7 @@ from pyrep.objects.shape import Shape
 import numpy as np
 
 SCENE_FILE = join(dirname(abspath(__file__)),
-                  'strirus.ttt')
+                  'strirus_reinforcement_learning_env.ttt')
 POS_MIN, POS_MAX = [0.8, -0.2, 1.0], [1.0, 0.2, 1.4]
 EPISODES = 5
 EPISODE_LENGTH = 200
